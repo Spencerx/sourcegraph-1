@@ -24,6 +24,7 @@ import {
 } from '../panels/utils'
 
 import { SearchPage, SearchPageProps } from './SearchPage'
+import { FeatureFlagName } from '../../featureFlags/featureFlags'
 
 const history = createMemoryHistory()
 const defaultProps = (props: ThemeProps): SearchPageProps => ({
@@ -57,7 +58,7 @@ const defaultProps = (props: ThemeProps): SearchPageProps => ({
     hasUserAddedRepositories: false,
     hasUserAddedExternalServices: false,
     getUserSearchContextNamespaces: mockGetUserSearchContextNamespaces,
-    featureFlags: new Map(),
+    featureFlags: new Map<FeatureFlagName, boolean>(),
 })
 
 const { add } = storiesOf('web/search/home/SearchPage', module)
