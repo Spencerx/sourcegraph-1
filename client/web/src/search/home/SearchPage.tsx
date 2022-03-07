@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import * as H from 'history'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 
 import { SearchContextInputProps } from '@sourcegraph/search'
 import { ActivationProps } from '@sourcegraph/shared/src/components/activation/Activation'
@@ -17,7 +17,7 @@ import { AuthenticatedUser } from '../../auth'
 import { BrandLogo } from '../../components/branding/BrandLogo'
 import { FeatureFlagProps } from '../../featureFlags/featureFlags'
 import { CodeInsightsProps } from '../../insights/types'
-import { useExperimentalFeatures, useNavbarQueryState } from '../../stores'
+import { useExperimentalFeatures } from '../../stores'
 import { ThemePreferenceProps } from '../../theme'
 import { HomePanels } from '../panels/HomePanels'
 
@@ -57,15 +57,6 @@ export interface SearchPageProps
 export const SearchPage: React.FunctionComponent<SearchPageProps> = props => {
     const showEnterpriseHomePanels = useExperimentalFeatures(features => features.showEnterpriseHomePanels ?? false)
 
-    const isExperimentalOnboardingTourEnabled = useExperimentalFeatures(
-        features => features.showOnboardingTour ?? false
-    )
-    const hasSearchQuery = useNavbarQueryState(state => state.searchQueryFromURL !== '')
-    const isGettingStartedTourEnabled = props.featureFlags.get('getting-started-tour')
-    const showOnboardingTour = useMemo(
-        () => isExperimentalOnboardingTourEnabled && !hasSearchQuery && !isGettingStartedTourEnabled,
-        [hasSearchQuery, isGettingStartedTourEnabled, isExperimentalOnboardingTourEnabled]
-    )
     const showCollaborators = useExperimentalFeatures(features => features.homepageUserInvitation) ?? false
 
     useEffect(() => props.telemetryService.logViewEvent('Home'), [props.telemetryService])
@@ -83,7 +74,7 @@ export const SearchPage: React.FunctionComponent<SearchPageProps> = props => {
                     [styles.searchContainerWithContentBelow]: props.isSourcegraphDotCom || showEnterpriseHomePanels,
                 })}
             >
-                <SearchPageInput {...props} showOnboardingTour={showOnboardingTour} source="home" />
+                <SearchPageInput {...props} source="home" />
             </div>
             <div
                 className={classNames(styles.panelsContainer, {

@@ -98,19 +98,6 @@ add('Cloud marketing home', () => (
     </WebStory>
 ))
 
-add('Cloud marketing home with notebook onboarding', () => (
-    <WebStory>
-        {webProps => (
-            <SearchPage
-                {...defaultProps(webProps)}
-                isSourcegraphDotCom={true}
-                authenticatedUser={null}
-                featureFlags={new Map([['search-notebook-onboarding', true]])}
-            />
-        )}
-    </WebStory>
-))
-
 add('Server with panels', () => (
     <WebStory>
         {webProps => {

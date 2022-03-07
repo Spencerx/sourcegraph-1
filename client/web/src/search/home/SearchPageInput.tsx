@@ -30,7 +30,6 @@ import {
 } from '../../stores'
 import { ThemePreferenceProps } from '../../theme'
 import { submitSearch } from '../helpers'
-import { useSearchOnboardingTour } from '../input/SearchOnboardingTour'
 import { QuickLinks } from '../QuickLinks'
 
 import styles from './SearchPageInput.module.scss'
@@ -56,7 +55,6 @@ interface Props
     /** A query fragment to be prepended to queries. This will not appear in the input until a search is submitted. */
     hiddenQueryPrefix?: string
     autoFocus?: boolean
-    showOnboardingTour?: boolean
 }
 
 const queryStateSelector = (
@@ -84,14 +82,6 @@ export const SearchPageInput: React.FunctionComponent<Props> = (props: Props) =>
         (isSettingsValid<Settings>(props.settingsCascade) && props.settingsCascade.final.quicklinks) || []
 
     const tourContainer = useRef<HTMLDivElement>(null)
-
-    const { shouldFocusQueryInput, ...onboardingTourQueryInputProps } = useSearchOnboardingTour({
-        ...props,
-        showOnboardingTour: props.showOnboardingTour ?? false,
-        queryState: userQueryState,
-        setQueryState: setUserQueryState,
-        stepsContainer: tourContainer.current ?? undefined,
-    })
 
     const submitSearchOnChange = useCallback(
         (parameters: Partial<SubmitSearchParameters> = {}) => {
@@ -140,7 +130,6 @@ export const SearchPageInput: React.FunctionComponent<Props> = (props: Props) =>
                     <div ref={tourContainer} />
                     <SearchBox
                         {...props}
-                        {...onboardingTourQueryInputProps}
                         showSearchContext={showSearchContext}
                         showSearchContextManagement={showSearchContextManagement}
                         caseSensitive={caseSensitive}
@@ -151,7 +140,6 @@ export const SearchPageInput: React.FunctionComponent<Props> = (props: Props) =>
                         queryState={userQueryState}
                         onChange={setUserQueryState}
                         onSubmit={onSubmit}
-                        autoFocus={props.showOnboardingTour ? shouldFocusQueryInput : props.autoFocus !== false}
                         isExternalServicesUserModeAll={window.context.externalServicesUserMode === 'all'}
                         structuralSearchDisabled={window.context?.experimentalFeatures?.structuralSearch === 'disabled'}
                     />

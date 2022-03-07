@@ -27,8 +27,7 @@ jest.mock('./SearchPageInput', () => ({
 // CommonJS).
 jest.mock('./LoggedOutHomepage.constants', () => ({
     fonts: [],
-    exampleQueries: [],
-    exampleNotebooks: [],
+    exampleTripsAndTricks: []
 }))
 
 describe('SearchPage', () => {
